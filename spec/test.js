@@ -49,9 +49,18 @@ describe('promise_heaven', function() {
   });
 
   it('should still work when flipping successes and failures', function(done) {
-    const fastFunc = (cb) => setTimeout(() => cb(null, "fastFunction worked"), 100);
-    const slowFunc = (cb) => setTimeout(() => cb("slowFunction error"), 300);
-    const immediateFunc = (cb) => cb("immediateFunction error");
+    const fastFunc = () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => resolve("fastFunction worked"), 100);
+      });
+    };
+    const slowFunc = () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => reject("slowFunction error"), 300);
+      });
+    };
+    const immediateFunc = () => new Promise((resolve, reject) => reject("immediateFunction error"));
+
     const funcs = [slowFunc, fastFunc, immediateFunc];
     const expected = [
       'messageHandler handled this failure: slowFunction error',
@@ -82,9 +91,18 @@ describe('async_await_heaven', function() {
   });
 
   it('should still work when flipping successes and failures', function(done) {
-    const fastFunc = (cb) => setTimeout(() => cb(null, "fastFunction worked"), 100);
-    const slowFunc = (cb) => setTimeout(() => cb("slowFunction error"), 300);
-    const immediateFunc = (cb) => cb("immediateFunction error");
+    const fastFunc = () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => resolve("fastFunction worked"), 100);
+      });
+    };
+    const slowFunc = () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => reject("slowFunction error"), 300);
+      });
+    };
+    const immediateFunc = () => new Promise((resolve, reject) => reject("immediateFunction error"));
+
     const funcs = [slowFunc, fastFunc, immediateFunc];
     const expected = [
       'messageHandler handled this failure: slowFunction error',
