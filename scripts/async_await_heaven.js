@@ -31,12 +31,20 @@ function runSequentially(funcs, cb, next) {
   // pass in `messageHandler` as the callback to this function
   // invoke the 3 functions at the top of this file within this function
   // your code here...
+  Promise.all(funcs.map(async (func) => {
+    return await func().then(data => cb(null, data)).catch(err => cb(err));
+  }))
+  .then(result => next(result))
+  .catch(err => console.log(err));
 }
 
 function messageHandler(err, data) {
   // use this function to define the callback that will be passed to `runSequentially`
   // this function supplies the "messageHandler handled " message
   // your code here...
+  const successOrFailure = err ? 'failure' : 'success';
+  const dataOrErr = err ? err : data;
+  return `messageHandler handled this ${successOrFailure}: ${dataOrErr}`;
 }
 
 // after defining everything, invoke like this:
