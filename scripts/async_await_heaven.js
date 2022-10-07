@@ -27,7 +27,7 @@ function immediateFunction() {
 
 // nothing should be edited above this line
 
-function runSequentially(cb) {
+function runSequentially(funcs, cb, next) {
   // pass in `messageHandler` as the callback to this function
   // invoke the 3 functions at the top of this file within this function
   // your code here...
@@ -90,5 +90,8 @@ function immediateFunction() {
 */
 module.exports = {
   runSequentially,
-  messageHandler
+  messageHandler,
+  fastFunction,
+  slowFunction,
+  immediateFunction
 };
